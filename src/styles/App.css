@@ -1,0 +1,48 @@
+/* src/styles/App.css */
+
+/* Define variables for the LIGHT theme (default) */
+:root,
+.light {
+  --background-color: #f0f2f5; /* Page background */
+  --background-color-light: #ffffff; /* Card, Modal, Dropdown background */
+  --text-color: #1c1e21; /* Main text */
+  --text-color-secondary: #65676b; /* Lighter text (placeholders, emails) */
+  --primary-color: #007bff; /* Buttons, active states, links */
+  --border-color: #ccd0d5; /* Borders for cards, inputs */
+  --nav-bg: #ffffff; /* Navbar background */
+  --nav-text: #1c1e21; /* Navbar text */
+  --nav-border: #e4e6eb; /* Navbar bottom border */
+  --danger-color: #dc3545; /* Logout button */
+  --success-bg: #d4edda; /* Success message background */
+  --success-text: #155724; /* Success message text */
+  --error-bg: #f8d7da; /* Error message background */
+  --error-text: #721c24; /* Error message text */
+}
+
+/* Define overrides for the DARK theme */
+.dark {
+  --background-color: #121212;
+  --background-color-light: #1e1e1e;
+  --text-color: #e4e6eb;
+  --text-color-secondary: #b0b3b8;
+  --primary-color: #2d88ff;
+  --border-color: #3e4042;
+  --nav-bg: #1e1e1e;
+  --nav-text: #e4e6eb;
+  --nav-border: #303030;
+  --danger-color: #ff4d4d;
+  --success-bg: #1a3c2a;
+  --success-text: #28a745;
+  --error-bg: #4d2a2d;
+  --error-text: #dc3545;
+}
+
+/* Base styles for the entire app */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: 0;
+  transition: background-color 0.2s, color 0.2s;
+}

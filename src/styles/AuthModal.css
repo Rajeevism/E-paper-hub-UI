@@ -1,0 +1,192 @@
+/* src/styles/AuthModal.css */
+/* --- FULL UPDATED AND CLEANED FILE --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  background-color: var(--background-color-light);
+  color: var(--text-color);
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--text-color);
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* .auth-options, .social-btn, and .divider classes have been removed */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.auth-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.auth-form button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.auth-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.extras {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.extras a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.switch-msg {
+  margin-top: 20px;
+}
+
+.switch-msg a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #d8000c;
+  background-color: #ffd2d2;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.return-to-login-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 100%;
+  transition: opacity 0.2s;
+}
+
+.return-to-login-btn:hover {
+  opacity: 0.9;
+}
+/* --- ADD THESE STYLES TO YOUR EXISTING AuthModal.css FILE --- */
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Make sure the input inside the wrapper takes up the full width */
+.password-input-wrapper input {
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px; /* Adjust as needed for padding */
+  cursor: pointer;
+  color: var(--text-color-secondary);
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.password-toggle-icon:hover {
+  color: var(--text-color);
+}

@@ -1,0 +1,74 @@
+
+.hero {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.hero h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.hero-buttons .buy-btn,
+.hero-buttons .sell-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.hero-buttons .buy-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.hero-buttons .sell-btn {
+    background-color: var(--background-color-light);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.hero-buttons .buy-btn:hover,
+.hero-buttons .sell-btn:hover {
+    transform: translateY(-2px);
+}
+
+.book-section {
+    margin-bottom: 2rem;
+}
+
+.book-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* --- THIS IS THE FIX --- */
+.book-grid {
+    display: grid;
+    /* Use CSS Grid for the layout */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Create responsive columns */
+    gap: 1.5rem;
+    /* The space between cards */
+    align-items: stretch;
+    /* This is the magic property that makes all items in a row the same height */
+}

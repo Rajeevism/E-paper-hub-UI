@@ -1,0 +1,60 @@
+/* src/styles/SecondaryNavBar.css --- FINAL, CORRECTED VERSION --- */
+
+.secondary-navbar-container {
+  /* Use the global theme variables */
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  border-bottom: 1px solid var(--nav-border);
+
+  /* Your existing styles are good */
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+
+.secondary-navbar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 1400px; /* Assuming you have --max-width defined or use a value */
+  margin: 0 auto;
+  padding: 8px 0;
+}
+
+.secondary-navbar .nav-item {
+  /* Use the global theme variable for link color */
+  color: var(--nav-text);
+
+  /* Your existing styles are good */
+  text-decoration: none;
+  padding: 8px 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.secondary-navbar .nav-item:hover {
+  /* Use the primary color for the hover border to make it stand out */
+  border-color: var(--primary-color);
+}
+
+/* This section is already using theme variables, so it's perfect! */
+.secondary-navbar .nav-item.active {
+  background-color: var(--background-color-light);
+  border-color: var(--primary-color);
+  font-weight: bold;
+  color: var(
+    --primary-color
+  ); /* Added this for better active state visibility */
+}
+
+.secondary-navbar .all-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
+
+.secondary-navbar .sell-link {
+  margin-left: auto;
+  font-weight: 500;
+}
