@@ -1,50 +1,105 @@
-:root {
-    /* Light Theme (Default) */
-    --bg-primary: #f0f2f5;
-    /* Light grey main background */
-    --bg-secondary: #ffffff;
-    /* White content cards */
-    --text-primary: #1c1e21;
-    /* Dark text */
-    --text-secondary: #65676b;
-    /* Grey text */
-    --border-color: #ddd;
-    /* Light border color */
-    --nav-bg: #232f3e;
-    /* Dark blue nav */
-    --nav-text: #ffffff;
-    /* White nav text */
+/* src/styles/SearchBar.css */
+
+.search-bar-wrapper {
+  position: relative;
+  width: 100%;
 }
 
-html.dark {
-    /* Dark Theme */
-    --bg-primary: #1c1e21;
-    /* Dark grey main background */
-    --bg-secondary: #242526;
-    /* Slightly lighter card background */
-    --text-primary: #e4e6eb;
-    /* Light grey text */
-    --text-secondary: #b0b3b8;
-    /* Dimmer grey text */
-    --border-color: #393a3b;
-    /* Darker border color */
-    --nav-bg: #242526;
-    /* Match card background */
-    --nav-text: #e4e6eb;
-    /* Light grey nav text */
+.search-bar-form {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Theme friendly */
+  border-radius: 8px;
+  overflow: hidden;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Apply the variables */
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+.search-bar-form:focus-within {
+  background-color: #fff;
+  border-color: var(--accent-color);
+}
 
-    background-color: var(--bg-primary);
-    /* Use the variable */
-    color: var(--text-primary);
-    /* Use the variable */
-    transition: background-color 0.2s ease, color 0.2s ease; }
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 15px;
+  color: #fff;
+  outline: none;
+}
+
+.search-bar-form:focus-within .search-input {
+  color: #000;
+}
+
+/* --- THE FIX FOR THE DROPDOWN LIST --- */
+
+.search-suggestions-list {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background-color: #1e1e1e; /* Dark theme background */
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  z-index: 9999;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #333;
+}
+
+/* This puts the photo and text side-by-side */
+.search-suggestions-list li {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.search-suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+.search-suggestions-list li:hover {
+  background-color: #2a2a2a;
+}
+
+/* This forces the photo to be a small "mini" size */
+.suggestion-thumb {
+  width: 40px; /* Fixed small width */
+  height: 55px; /* Proportionate height for a book */
+  min-width: 40px; /* Prevents shrinking */
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px; /* Gap between photo and text */
+  background-color: #333;
+}
+
+.suggestion-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.suggestion-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Keeps long titles neat */
+}
+
+.suggestion-cat {
+  font-size: 12px;
+  color: var(--accent-color); /* Shows category in your theme orange */
+  text-transform: capitalize;
+  margin-top: 2px;
+}

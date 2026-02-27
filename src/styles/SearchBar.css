@@ -1,63 +1,137 @@
 /* src/styles/SearchBar.css */
-/* --- FULL UPDATED FILE --- */
+
+.search-bar-wrapper {
+  position: relative;
+  width: 100%;
+}
 
 .search-bar-form {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    /* The background is now set on the input itself */
-    border-radius: 25px;
-    overflow: hidden;
-    transition: box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
+/* Turns white when focused */
 .search-bar-form:focus-within {
-    box-shadow: 0 0 0 2px var(--primary-color);
-    border-color: var(--primary-color);
+  background-color: #ffffff;
+  border-color: var(--accent-color);
 }
 
-/* --- THIS IS THE FIX --- */
 .search-input {
-    flex-grow: 1;
-    padding: 10px 15px;
-    font-size: 1rem;
-    outline: none;
-    border-radius: 25px 0 0 25px;
-    /* Round the left side */
-
-    /* These variables will change with your theme */
-    color: var(--text-color);
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-right: none;
-    /* The button will have the right border */
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 15px;
+  font-size: 15px;
+  color: var(--text-main, #ffffff);
+  outline: none;
 }
 
-.search-input::placeholder {
-    color: var(--text-color-secondary);
-    opacity: 1;
+.search-bar-form:focus-within .search-input {
+  color: #000000 !important;
 }
 
-.search-button {
-    background-color: var(--background-color);
-    /* Match the input background */
-    border: 1px solid var(--border-color);
-    border-left: none;
-    border-radius: 0 25px 25px 0;
-    /* Round the right side */
-    padding: 0 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-color-secondary);
-    transition: color 0.2s, background-color 0.2s;
-    align-self: stretch;
-    /* Make button same height as input */
+.search-submit-btn {
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0 18px;
+  height: 100%;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
 }
 
-.search-button:hover {
-    color: var(--primary-color);
-    background-color: var(--background-color-light);
+/* --- THE DROPDOWN FIXED (NO TRANSPARENCY) --- */
+
+.search-suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  /* FORCING SOLID BACKGROUNDS */
+  /* Default to solid white for light mode */
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  z-index: 99999 !important; /* Extremely high to stay on top */
+  border: 1px solid #ddd;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+/* If the body has a dark theme class, force a solid dark background */
+body.dark-theme .search-suggestions-list,
+[data-theme="dark"] .search-suggestions-list {
+  background-color: #1a1a1a !important;
+  border-color: #333;
+}
+
+.search-suggestions-list li {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  /* FORCE text color to be readable */
+  color: #000000 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode text color */
+body.dark-theme .search-suggestions-list li,
+[data-theme="dark"] .search-suggestions-list li {
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-suggestions-list li:hover {
+  background-color: #f0f0f0 !important;
+}
+
+body.dark-theme .search-suggestions-list li:hover,
+[data-theme="dark"] .search-suggestions-list li:hover {
+  background-color: #2a2a2a !important;
+}
+
+.suggestion-thumb {
+  width: 45px !important;
+  height: 60px !important;
+  min-width: 45px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px;
+  background-color: #ccc;
+}
+
+.suggestion-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.suggestion-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  /* Title color should follow the li color */
+  color: inherit;
+}
+
+.suggestion-cat {
+  color: var(--accent-color, #ff7043);
+  font-size: 12px;
+  text-transform: capitalize;
 }

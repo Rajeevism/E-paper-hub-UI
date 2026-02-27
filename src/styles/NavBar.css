@@ -1,120 +1,73 @@
 /* src/styles/NavBar.css */
 
+/* --- 1. Main Navbar Container --- */
 .navbar-container {
-  background-color: var(--nav-bg);
-  border-bottom: 1px solid var(--nav-border);
+  background-color: rgba(32, 64, 133, 0.636);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar {
   display: flex;
   align-items: center;
-  padding: 10px 40px;
-  height: 70px;
-  gap: 20px;
+  justify-content: space-between;
+  padding: 10px 20px;
+  height: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
+/* --- 2. Logo --- */
 .app-logo {
-  height: 75px;
-  width: 75px;
+  height: 40px; /* Adjusted for better fit */
+  width: auto;
+  object-fit: contain;
+  margin-top: 5px;
 }
+
+/* --- 3. Center Search Bar (Amazon Style) --- */
 .navbar-center {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-}
-.navbar-left,
-.navbar-right {
-  flex-shrink: 0;
-}
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 30px;
+  flex: 1;
+  margin: 0 20px;
+  max-width: 700px;
 }
 
-.nav-link {
-  color: var(--nav-text);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.nav-link:hover {
-  background-color: rgba(128, 128, 128, 0.1);
-}
-
-.profile-container {
+.search-bar-wrapper {
   position: relative;
+  width: 100%;
 }
 
-.profile-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.profile-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-  display: block;
-}
-
-.profile-avatar-initial {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-  background-color: var(--primary-color);
-  color: white; /* Text on a colored background should be white */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-/* src/styles/NavBar.css */
-
-/* ... Keep your existing NavBar styles ... */
-
-/* Search Bar Styles */
 .search-bar-form {
   display: flex;
-  align-items: center;
+  width: 100%;
   background-color: white;
   border-radius: 4px;
   overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  position: relative; /* Important for positioning the X */
-  height: 40px;
+}
+
+.search-bar-form:focus-within {
+  box-shadow: 0 0 0 2px #f90; /* Orange Glow on focus */
 }
 
 .search-input {
   flex: 1;
+  padding: 10px;
   border: none;
-  padding: 0 10px;
-  font-size: 15px;
   outline: none;
-  height: 100%;
+  font-size: 15px;
 }
 
 .search-clear-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: #555;
   cursor: pointer;
-  font-size: 16px;
   padding: 0 10px;
+  color: #555;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .search-clear-btn:hover {
@@ -122,25 +75,150 @@
 }
 
 .search-submit-btn {
-  background-color: #febd69; /* Amazon Yellow */
+  background-color: #febd69;
   border: none;
   padding: 0 15px;
   cursor: pointer;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  font-size: 18px;
+  transition: background 0.2s;
 }
 
 .search-submit-btn:hover {
   background-color: #f3a847;
 }
 
-/* Adjust the center container to fill space */
-.navbar-center {
-  flex: 2;
+/* --- 4. Right Navigation Links --- */
+.navbar-right {
   display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 10px;
+  border: 1px solid transparent; /* Invisible border for hover effect */
+  border-radius: 2px;
+  transition: all 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  border: 1px solid white; /* Box border effect like Amazon */
+}
+
+/* --- 5. CART BUTTON STYLING (The Fix) --- */
+.cart-link-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* The "Cart" Text */
+.cart-text {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* The Badge (Number) */
+.cart-badge {
+  background-color: #f08804; /* Bright Orange */
+  color: #111;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 10px; /* Pill shape */
+  padding: 2px 8px;
+  margin-left: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 6. Profile Avatar --- */
+.profile-container {
+  position: relative;
+  margin-left: 5px;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+/* Initial Circle (Fallback) */
+.profile-avatar-initial {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007185; /* Teal Blue */
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 0 20px;
+  border: 2px solid white;
+}
+
+.profile-avatar-initial:hover {
+  background-color: #c7511f;
+}
+
+/* Photo Image */
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+/* Update these sections in your NavBar.css */
+
+.cart-link-container {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Space between text and badge */
+  position: relative;
+}
+
+.cart-badge {
+  background-color: var(--accent-color); /* The Orange from your index.css */
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 12px;
+
+  /* This ensures the badge doesn't push the text around too much */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 18px;
+
+  /* Slight lift to look like a notification */
+  transform: translateY(-2px);
+}
+/* Add/Update in NavBar.css */
+.cart-badge {
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 5px; /* Adds space after "My Cart" text */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }

@@ -1,97 +1,134 @@
-// Create a new file: src/pages/SearchResultsPage.jsx
-// --- FULL NEW FILE ---
-
+// src/pages/SearchResultsPage.jsx
 import React, { useState, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import BookCard from "../components/BookCard";
-import "../styles/HomePage.css"; // We can reuse the homepage styles for the grid
+import "../styles/HomePage.css";
 
 const SearchResultsPage = () => {
-  const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("q"); // Get the search query 'q' from the URL
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get("q") || "";
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!searchTerm) {
-      setResults([]);
-      setLoading(false);
-      return;
-    }
-
-    const fetchResults = async () => {
+    const fetchSearchResults = async () => {
       setLoading(true);
-      setError(null);
+
+      // 1. FORCE LOWERCASE HERE
+      const lowerCaseQuery = searchQuery.toLowerCase().trim();
+
+      if (!lowerCaseQuery) {
+        setResults([]);
+        setLoading(false);
+        return;
+      }
+
+      const collectionsToSearch = [
+        "books",
+        "stationery",
+        "newspapers",
+        "magazines",
+        "elibrary",
+      ];
+      let allResults = [];
+
       try {
-        // NOTE: Firestore doesn't support full-text search natively.
-        // This query performs a "starts-with" search and is case-sensitive.
-        // For better search, consider a third-party service like Algolia.
-        const searchQuery = query(
-          collection(db, "books"),
-          where("title", ">=", searchTerm),
-          where("title", "<=", searchTerm + "\uf8ff"),
+        const searchPromises = collectionsToSearch.map(
+          async (collectionName) => {
+            const querySnapshot = await getDocs(collection(db, collectionName));
+
+            const matchedDocs = [];
+            querySnapshot.forEach((doc) => {
+              const data = doc.data();
+
+              // 2. SAFELY CHECK TITLE & AUTHOR (Convert to String first to avoid crashes)
+              const title = data.title ? String(data.title).toLowerCase() : "";
+              const author = data.author
+                ? String(data.author).toLowerCase()
+                : "";
+
+              // 3. COMPARE
+              if (
+                title.includes(lowerCaseQuery) ||
+                author.includes(lowerCaseQuery)
+              ) {
+                matchedDocs.push({
+                  id: doc.id,
+                  ...data,
+                  category: collectionName,
+                });
+              }
+            });
+            return matchedDocs;
+          },
         );
 
-        const querySnapshot = await getDocs(searchQuery);
-        const searchResults = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setResults(searchResults);
-      } catch (err) {
-        console.error("Error fetching search results:", err);
-        setError("Failed to fetch results. Please try again.");
+        const resultsArray = await Promise.all(searchPromises);
+        allResults = resultsArray.flat();
+
+        setResults(allResults);
+      } catch (error) {
+        console.error("Search Error:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchResults();
-  }, [searchTerm]); // Re-run the search whenever the searchTerm in the URL changes
+    fetchSearchResults();
+  }, [searchQuery]);
 
   return (
-    <div className="search-results-container">
-      <section className="book-section">
-        {loading ? (
-          <h3>Searching for "{searchTerm}"...</h3>
-        ) : (
-          <h3>
-            {results.length} results for "{searchTerm}"
-          </h3>
-        )}
+    <div className="category-page-container" style={{ padding: "20px" }}>
+      <h2>
+        {results.length} results for "{searchQuery}"
+      </h2>
 
-        {error && <p className="error-message">{error}</p>}
-
-        {!loading && results.length === 0 && !error && (
-          <p>
-            No books found matching your search. Try a different term or{" "}
-            <Link to="/">explore all books</Link>.
-          </p>
-        )}
-
-        <div className="book-grid">
-          {results.map((book) => (
+      {loading ? (
+        <p>Searching...</p>
+      ) : results.length === 0 ? (
+        <div className="no-results">
+          <p>No products found matching your search.</p>
+          <Link to="/" style={{ color: "#007185", textDecoration: "none" }}>
+            Explore all products
+          </Link>
+        </div>
+      ) : (
+        <div className="books-grid">
+          {results.map((product) => (
             <Link
-              to={`/book/${book.id}`}
-              key={book.id}
-              style={{ textDecoration: "none" }}
+              to={`/product/${product.category}/${product.id}`}
+              key={product.id}
+              className="book-card-link"
             >
-              <BookCard
-                title={book.title}
-                price={book.price}
-                mrp={book.mrp}
-                discount={book.discount}
-                condition={book.condition}
-                imageUrl={book.imageUrl}
-              />
+              <div className="book-card">
+                <div className="book-image-container">
+                  <img
+                    src={product.imageUrl || product.coverImage}
+                    alt={product.title}
+                  />
+                </div>
+                <div className="book-info">
+                  <h3 className="book-title">{product.title}</h3>
+                  <p className="book-author">{product.author}</p>
+                  <div className="book-rating">
+                    <span className="stars">★★★★☆</span>
+                    <span className="rating-count">
+                      ({product.ratingCount || 0})
+                    </span>
+                  </div>
+                  <div className="book-price">
+                    <span className="currency">₹</span>
+                    <span className="amount">{product.price}</span>
+                  </div>
+                </div>
+              </div>
             </Link>
           ))}
         </div>
-      </section>
+      )}
     </div>
   );
 };

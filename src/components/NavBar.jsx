@@ -12,10 +12,11 @@ const NavBar = ({ onProfileClick }) => {
   const { currentUser } = useAuth();
   const { cartCount } = useCart();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -28,36 +29,51 @@ const NavBar = ({ onProfileClick }) => {
 
   const handleSearch = (searchTerm) => {
     if (searchTerm.trim()) {
-      // Fixed: Added backticks for template literal
       navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
     }
+  };
+
+  const handleClearSearch = () => {
+    navigate("/");
+  };
+
+  const getUserInitial = () => {
+    if (currentUser?.displayName) {
+      return currentUser.displayName.charAt(0).toUpperCase();
+    }
+    if (currentUser?.email) {
+      return currentUser.email.charAt(0).toUpperCase();
+    }
+    return "U";
   };
 
   return (
     <div className="navbar-container">
       <nav className="navbar">
-        {/* Left Section: Logo */}
         <div className="navbar-left">
           <Link to="/">
             <img src={logo} alt="E-Paper Hub" className="app-logo" />
           </Link>
         </div>
 
-        {/* Center Section: Search Bar */}
         <div className="navbar-center">
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />
         </div>
 
-        {/* Right Section: Navigation Links */}
         <div className="navbar-right">
           <Link to="/" className="nav-link">
             Home
           </Link>
 
-          <Link to="/cart" className="nav-link cart-link-container">
-            My Cart
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </Link>
+          <div className="cart-link-container">
+            <Link to="/cart" className="nav-link cart-link-container">
+              My Cart
+              {/* UPDATED LOGIC: Only show badge if user exists AND count > 0 */}
+              {currentUser && cartCount > 0 && (
+                <span className="cart-badge">{cartCount}</span>
+              )}
+            </Link>
+          </div>
 
           {currentUser ? (
             <div className="profile-container" ref={dropdownRef}>
@@ -65,27 +81,27 @@ const NavBar = ({ onProfileClick }) => {
                 onClick={() => setShowDropdown((prev) => !prev)}
                 className="profile-btn"
               >
-                {currentUser.photoURL ? (
+                {!imgError && currentUser.photoURL ? (
                   <img
                     src={currentUser.photoURL}
                     alt="Profile"
                     className="profile-avatar"
+                    onError={() => setImgError(true)}
                   />
                 ) : (
                   <div className="profile-avatar-initial">
-                    {currentUser.displayName
-                      ? currentUser.displayName.charAt(0).toUpperCase()
-                      : "U"}
+                    {getUserInitial()}
                   </div>
                 )}
               </button>
+
               {showDropdown && (
                 <ProfileDropdown onClose={() => setShowDropdown(false)} />
               )}
             </div>
           ) : (
             <div
-              className="nav-link"
+              className="nav-link profile-btn-guest" /* Added a class for styling */
               onClick={onProfileClick}
               style={{ cursor: "pointer" }}
             >

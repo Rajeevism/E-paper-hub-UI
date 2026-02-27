@@ -1,222 +1,137 @@
 /* src/styles/BookDetailsPage.css */
-/* --- FULL UPDATED FILE --- */
 
 .book-detail-page-container {
-    padding: 1rem;
-    background-color: var(--background-color-light);
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .book-detail-main-content {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 1400px;
-    margin: 0 auto;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 350px 1fr 300px; /* Image | Info | BuyBox */
+  gap: 40px;
 }
 
-/* --- COLUMN SIZING --- */
-.image-column {
-    flex: 1 1 300px;
-    padding-top: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.info-column {
-    flex: 2 1 500px;
-    padding: 1rem;
-}
-
-.buy-box-column {
-    flex: 1 1 250px;
-    padding: 1rem;
-}
-
-/* --- IMAGE COLUMN --- */
+/* Image */
 .image-column img {
-    max-width: 100%;
-    max-height: 450px;
-    object-fit: contain;
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s;
+}
+.image-column img:hover {
+  transform: scale(1.02);
 }
 
-/* --- INFO COLUMN (Middle) --- */
-.condition-badge {
-    display: inline-block;
-    background-color: var(--secondary-color);
-    color: #fff;
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
+/* Info */
 .info-column h1 {
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: var(--text-color);
-    margin: 0 0 0.25rem 0;
+  font-size: 2rem;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  line-height: 1.2;
 }
 
-.author-link {
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    margin: 0 0 0.5rem 0;
-    /* Added bottom margin */
-    cursor: pointer;
-}
-
-.author-link:hover {
-    text-decoration: underline;
-}
-
-/* --- NEW STYLES FOR THE RATING LINK --- */
-.details-rating-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    margin-bottom: 0.5rem;
-}
-
-.details-rating-link .rating-count-link {
-    font-size: 0.9rem;
-    color: var(--primary-color);
-}
-
-.details-rating-link:hover .rating-count-link {
-    color: #c45500;
-    /* Amazon's link hover color */
-    text-decoration: underline;
-}
-
-/* --- END OF NEW STYLES --- */
-
-
-.info-column hr {
-    border: 0;
-    border-top: 1px solid #e7e7e7;
-    margin: 1rem 0;
+.condition-badge {
+  background-color: #e0f2f1; /* Light Teal */
+  color: var(--primary-color);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .price-section {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 0.5rem;
+  margin: 20px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
 }
 
-.price-section .price-symbol {
-    font-size: 1rem;
-    color: #B12704;
-    position: relative;
-    top: -0.4em;
-}
-
-.price-section .price-whole {
-    font-size: 1.75rem;
-    font-weight: 400;
-    color: #B12704;
+.price-whole {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color); /* Brand color for price */
 }
 
 .mrp-details {
-    font-size: 0.9rem;
-    color: var(--text-color-secondary);
-}
-
-.mrp-price {
-    text-decoration: line-through;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 .discount-percent {
-    font-size: 0.9rem;
-    color: var(--text-color-secondary);
+  color: #ef4444; /* Red for discount */
+  font-weight: 600;
+  margin-left: 10px;
 }
 
-.info-text {
-    font-size: 0.8rem;
-    color: var(--text-color-secondary);
-    margin-top: 0;
+/* Buy Box - Floating Card Style */
+.buy-box-column {
+  position: relative;
 }
 
-.description-section {
-    color: var(--text-color);
-}
-
-.description-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-}
-
-.description-section p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-/* --- BUY BOX COLUMN (Right) --- */
 .buy-box {
-    border: 1px solid #d5d9d9;
-    border-radius: 8px;
-    padding: 1.25rem;
-}
-
-.buy-box-price {
-    color: #B12704;
-}
-
-.buy-box-price .price-symbol {
-    font-size: 1rem;
-    position: relative;
-    top: -0.5em;
-}
-
-.buy-box-price .price-whole {
-    font-size: 1.75rem;
-}
-
-.delivery-info {
-    font-size: 0.9rem;
-    margin: 1rem 0;
-}
-
-.delivery-fast {
-    font-weight: bold;
+  border: 1px solid #eee;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  background: white;
+  position: sticky;
+  top: 100px;
 }
 
 .stock-status {
-    font-size: 1.1rem;
-    color: #007600;
-    font-weight: 500;
-    margin: 1rem 0;
+  color: #16a34a; /* Green */
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.buy-box-column .add-to-cart-btn,
-.buy-box-column .buy-now-btn {
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    margin-bottom: 0.75rem;
+/* NEW BUTTON STYLES */
+.add-to-cart-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 50px; /* Pill shape */
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(255, 112, 67, 0.3); /* Glow effect */
 }
 
-.buy-box-column .add-to-cart-btn {
-    background-color: #FFD814;
-    border: 1px solid #FCD200;
+.add-to-cart-btn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px); /* Lift effect */
 }
 
-.buy-box-column .add-to-cart-btn:hover {
-    background-color: #F7CA00;
+.buy-now-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 121, 107, 0.3);
 }
 
-.buy-box-column .buy-now-btn {
-    background-color: #FFA41C;
-    border: 1px solid #FF8F00;
+.buy-now-btn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
-.buy-box-column .buy-now-btn:hover {
-    background-color: #FA8900;
+/* Mobile */
+@media (max-width: 900px) {
+  .book-detail-main-content {
+    grid-template-columns: 1fr;
+  }
 }

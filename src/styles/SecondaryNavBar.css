@@ -1,60 +1,83 @@
-/* src/styles/SecondaryNavBar.css --- FINAL, CORRECTED VERSION --- */
+/* src/styles/SecondaryNavBar.css */
 
 .secondary-navbar-container {
-  /* Use the global theme variables */
-  background-color: var(--nav-bg);
-  color: var(--nav-text);
-  border-bottom: 1px solid var(--nav-border);
-
-  /* Your existing styles are good */
-  padding: 0 1rem;
-  font-size: 0.9rem;
+  background-color: white; /* Clean white background */
+  border-bottom: 1px solid #e2e8f0; /* Subtle light gray border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); /* Very faint shadow for depth */
 }
 
 .secondary-navbar {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  max-width: 1400px; /* Assuming you have --max-width defined or use a value */
+  gap: 30px; /* More spacing for a cleaner look */
+  max-width: 1200px; /* Match the main navbar width */
   margin: 0 auto;
-  padding: 8px 0;
+  padding: 0 24px;
+  height: 50px;
 }
 
+/* Base Link Style */
 .secondary-navbar .nav-item {
-  /* Use the global theme variable for link color */
-  color: var(--nav-text);
-
-  /* Your existing styles are good */
   text-decoration: none;
-  padding: 8px 4px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+  color: #334155; /* Slate Gray (Softer than pure black) */
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 0; /* Full height padding */
+  border-bottom: 2px solid transparent; /* Invisible border for hover animation */
+  transition: all 0.2s ease;
+  position: relative;
 }
 
+/* Hover Effect: Teal Text + Bottom Border */
 .secondary-navbar .nav-item:hover {
-  /* Use the primary color for the hover border to make it stand out */
-  border-color: var(--primary-color);
+  color: var(--primary-color); /* The Teal Brand Color */
+  border-bottom-color: var(--primary-color);
 }
 
-/* This section is already using theme variables, so it's perfect! */
+/* Active Page State */
 .secondary-navbar .nav-item.active {
-  background-color: var(--background-color-light);
-  border-color: var(--primary-color);
-  font-weight: bold;
-  color: var(
-    --primary-color
-  ); /* Added this for better active state visibility */
+  color: var(--primary-color);
+  font-weight: 700;
+  border-bottom-color: var(--primary-color);
 }
 
+/* "All" Link (Hamburger Menu) */
 .secondary-navbar .all-link {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-weight: bold;
+  gap: 8px;
+  font-weight: 700;
+  margin-right: 10px;
 }
 
+/* "Sell" Link - Special Button Style */
 .secondary-navbar .sell-link {
-  margin-left: auto;
-  font-weight: 500;
+  margin-left: auto; /* Pushes it to the far right */
+  background-color: #f0fdfa; /* Very light teal background */
+  color: var(--primary-color) !important;
+  padding: 6px 16px !important; /* Override standard padding */
+  border-radius: 20px; /* Pill shape */
+  font-weight: 600;
+  border: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color); /* Fix border override */
+}
+
+.secondary-navbar .sell-link:hover {
+  background-color: var(--primary-color);
+  color: white !important;
+  box-shadow: 0 2px 5px rgba(0, 121, 107, 0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .secondary-navbar {
+    overflow-x: auto; /* Allow scrolling on mobile */
+    white-space: nowrap;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .secondary-navbar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for cleaner look */
+  }
 }
