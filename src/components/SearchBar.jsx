@@ -1,29 +1,42 @@
+// src/components/SearchBar.jsx
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa"; // Using react-icons for the search icon
-import "../styles/SearchBar.css"; // We'll create this CSS file next
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault(); // Prevent form from reloading the page
+  const handleSubmit = (e) => {
+    e.preventDefault();
     onSearch(searchTerm);
   };
 
+  const handleClear = () => {
+    setSearchTerm("");
+    // Optional: If you want it to reset the search results page immediately:
+    // onSearch("");
+  };
+
   return (
-    <form className="search-bar-form" onSubmit={handleSearch}>
+    <form className="search-bar-form" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Search for books..."
-        className="search-input"
+        placeholder="Search for books, stationery..."
         value={searchTerm}
-        onChange={handleInputChange}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
       />
-      <button type="submit" className="search-button">
+
+      {searchTerm && (
+        <button
+          type="button"
+          className="search-clear-btn"
+          onClick={handleClear}
+        >
+          <FaTimes />
+        </button>
+      )}
+
+      <button type="submit" className="search-submit-btn">
         <FaSearch />
       </button>
     </form>

@@ -1,21 +1,28 @@
-// src/pages/BookDetailsPage.jsx --- FINAL, COMPLETE, NO WARNINGS ---
-
+// src/pages/BookDetailsPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../context/auth.js"; // Correct import path for the hook
-import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import "../styles/BookDetailsPage.css";
+import { db } from "../firebase";
+import { useAuth } from "../context/auth.js";
+import { useCart } from "../context/CartContext.jsx";
 import RatingStars from "../components/RatingStars";
 import CustomerReviewsSection from "../components/CustomerReviewsSection";
+import "../styles/BookDetailsPage.css";
 
 const BookDetailsPage = ({ openAuthModal }) => {
   const { categoryName, productId } = useParams();
-  const { currentUser } = useAuth(); // We need the current user to check for login
+  const { currentUser } = useAuth();
+
+  // 1. Get cartItems and update functions from Context
+  const { addToCart, removeFromCart, updateQuantity, cartItems } = useCart();
 
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // 2. Find if this specific book is already in the cart
+  const cartItem = book ? cartItems.find((item) => item.id === book.id) : null;
+  const quantity = cartItem ? cartItem.quantity : 0;
 
   useEffect(() => {
     const collectionNameMap = {
@@ -39,10 +46,9 @@ const BookDetailsPage = ({ openAuthModal }) => {
         if (productSnap.exists()) {
           setBook({ id: productSnap.id, ...productSnap.data() });
         } else {
-          setError(`Sorry, this item could not be found.`);
+          setError("Sorry, this item could not be found.");
         }
       } catch (err) {
-        console.error("Error fetching product details:", err);
         setError("Failed to load product details.");
       } finally {
         setLoading(false);
@@ -54,37 +60,45 @@ const BookDetailsPage = ({ openAuthModal }) => {
     }
   }, [productId, categoryName]);
 
-  // --- THIS IS THE FIX ---
-  // This function uses both 'currentUser' and 'openAuthModal'
+  // 3. Handle Initial Add
   const handleAddToCart = () => {
     if (currentUser) {
-      // If the user is logged in, add to cart
-      alert(`"${book.title}" added to your cart! (Functionality to be built)`);
+      addToCart({
+        id: book.id,
+        title: book.title,
+        price: book.price,
+        image: book.imageUrl,
+        category: categoryName,
+      });
     } else {
-      // If the user is NOT logged in, open the login modal
       openAuthModal();
+    }
+  };
+
+  // 4. Handle Increment (+)
+  const handleIncrement = () => {
+    updateQuantity(book.id, 1);
+  };
+
+  // 5. Handle Decrement (-)
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      updateQuantity(book.id, -1);
+    } else {
+      removeFromCart(book.id); // Remove if qty becomes 0
     }
   };
 
   const handleRatingClick = (e) => {
     e.preventDefault();
-    document
-      .getElementById("customer-reviews-section")
-      .scrollIntoView({ behavior: "smooth" });
+    const reviewSection = document.getElementById("customer-reviews-section");
+    if (reviewSection) {
+      reviewSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
-  if (loading)
-    return (
-      <p style={{ textAlign: "center", padding: "2rem" }}>
-        Loading book details...
-      </p>
-    );
-  if (error)
-    return (
-      <p style={{ textAlign: "center", padding: "2rem", color: "red" }}>
-        {error}
-      </p>
-    );
+  if (loading) return <div className="loading-container">Loading...</div>;
+  if (error) return <div className="error-container">{error}</div>;
   if (!book) return null;
 
   return (
@@ -93,10 +107,12 @@ const BookDetailsPage = ({ openAuthModal }) => {
         <div className="image-column">
           <img src={book.imageUrl} alt={book.title} />
         </div>
+
         <div className="info-column">
           <span className="condition-badge">{book.condition}</span>
           <h1>{book.title}</h1>
           {book.author && <p className="author-link">by {book.author}</p>}
+
           {book.ratingAvg && book.ratingCount > 0 && (
             <a
               href="#customer-reviews-section"
@@ -123,12 +139,10 @@ const BookDetailsPage = ({ openAuthModal }) => {
           <hr />
           <div className="description-section">
             <h3>Description</h3>
-            <p>
-              {book.description ||
-                "No description available for this book yet."}
-            </p>
+            <p>{book.description || "No description available."}</p>
           </div>
         </div>
+
         <div className="buy-box-column">
           <div className="buy-box">
             <div className="buy-box-price">
@@ -140,15 +154,29 @@ const BookDetailsPage = ({ openAuthModal }) => {
               22.
             </p>
             <p className="stock-status">In Stock.</p>
-            {/* --- THIS BUTTON NOW USES THE FUNCTION --- */}
-            <button className="add-to-cart-btn" onClick={handleAddToCart}>
-              Add to Cart
-            </button>
+
+            {/* --- ZOMATO STYLE BUTTON LOGIC --- */}
+            {quantity > 0 ? (
+              <div className="qty-control-group">
+                <button className="qty-btn minus" onClick={handleDecrement}>
+                  −
+                </button>
+                <span className="qty-display">{quantity}</span>
+                <button className="qty-btn plus" onClick={handleIncrement}>
+                  +
+                </button>
+              </div>
+            ) : (
+              <button className="add-to-cart-btn" onClick={handleAddToCart}>
+                Add to Cart
+              </button>
+            )}
+            {/* --------------------------------- */}
+
             <button className="buy-now-btn">Buy Now</button>
           </div>
         </div>
       </div>
-
       <div id="customer-reviews-section">
         <CustomerReviewsSection bookId={productId} />
       </div>

@@ -33,7 +33,7 @@ const SearchResultsPage = () => {
         const searchQuery = query(
           collection(db, "books"),
           where("title", ">=", searchTerm),
-          where("title", "<=", searchTerm + "\uf8ff")
+          where("title", "<=", searchTerm + "\uf8ff"),
         );
 
         const querySnapshot = await getDocs(searchQuery);

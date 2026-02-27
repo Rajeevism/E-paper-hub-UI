@@ -79,3 +79,68 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+/* src/styles/NavBar.css */
+
+/* ... Keep your existing NavBar styles ... */
+
+/* Search Bar Styles */
+.search-bar-form {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  position: relative; /* Important for positioning the X */
+  height: 40px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 0 10px;
+  font-size: 15px;
+  outline: none;
+  height: 100%;
+}
+
+.search-clear-btn {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.search-clear-btn:hover {
+  color: #000;
+}
+
+.search-submit-btn {
+  background-color: #febd69; /* Amazon Yellow */
+  border: none;
+  padding: 0 15px;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.search-submit-btn:hover {
+  background-color: #f3a847;
+}
+
+/* Adjust the center container to fill space */
+.navbar-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}

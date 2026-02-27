@@ -1,26 +1,22 @@
-// src/Router/AppRouter.jsx --- FULLY UPDATED ---
-
+// src/Router/AppRouter.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
-
-// Import your page components
 import HomePage from "../pages/HomePage";
 import CartPage from "../pages/CartPage";
 import ProfilePage from "../pages/ProfilePage";
 import SearchResultsPage from "../pages/SearchResultsPage";
 import CategoryPage from "../pages/CategoryPage";
-import BookDetailsPage from "../pages/BookDetailsPage"; // Corrected name to match your file
+import BookDetailsPage from "../pages/BookDetailsPage";
+import SellPage from "../pages/SellPage"; // 1. Imported the SellPage
 
 const AppRoutes = ({ onAuthRequired }) => {
   return (
     <Routes>
-      {/* Public Routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/search" element={<SearchResultsPage />} />
       <Route path="/category/:categoryName" element={<CategoryPage />} />
 
-      {/* --- THIS IS THE CHANGE: New route for any product detail page --- */}
       <Route
         path="/product/:categoryName/:productId"
         element={<BookDetailsPage openAuthModal={onAuthRequired} />}
@@ -40,6 +36,16 @@ const AppRoutes = ({ onAuthRequired }) => {
         element={
           <ProtectedRoute onAuthRequired={onAuthRequired}>
             <CartPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* 2. Added the Sell Route (Protected) */}
+      <Route
+        path="/sell"
+        element={
+          <ProtectedRoute onAuthRequired={onAuthRequired}>
+            <SellPage />
           </ProtectedRoute>
         }
       />
